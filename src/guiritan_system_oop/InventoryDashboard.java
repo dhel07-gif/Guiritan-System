@@ -32,11 +32,12 @@ public class InventoryDashboard extends javax.swing.JFrame {
         getContentPane().setBackground(beige);
         categoryComboBox.setModel(
                 new javax.swing.DefaultComboBoxModel<>(categories)
-        );// UI Polish
+        );
+
         productIDField.setEditable(false);
         productIDField.setBackground(new java.awt.Color(240, 240, 240));
 
-        // Button colors polish
+        //button colors
         addButton.setBackground(new java.awt.Color(46, 204, 113));
         addButton.setForeground(java.awt.Color.WHITE);
         updateButton.setBackground(new java.awt.Color(52, 152, 219));
@@ -45,14 +46,44 @@ public class InventoryDashboard extends javax.swing.JFrame {
         deleteButton.setForeground(java.awt.Color.WHITE);
         clearButton.setBackground(new java.awt.Color(241, 196, 15));
 
-        productTable.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        //fonts
+        java.awt.Font uiFont = new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 13);
+        java.awt.Font boldUiFont = new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13);
+
+        //input fields
+        productNameField.setFont(uiFont);
+        priceField.setFont(uiFont);
+        searchField.setFont(uiFont);
+        categoryComboBox.setFont(uiFont);
+        quantitySpinner.setFont(uiFont);
+
+        //buttond
+        addButton.setFont(boldUiFont);
+        updateButton.setFont(boldUiFont);
+        deleteButton.setFont(boldUiFont);
+        clearButton.setFont(boldUiFont);
+        find.setFont(boldUiFont);
+
+        //column header
+        productTable.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        productTable.setFont(uiFont);
+        productTable.setRowHeight(24);
 
         loadTableData();
-        runButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                runButtonMouseClicked(evt);
-            }
-        });
+
+        //column width
+        productTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        productTable.getColumnModel().getColumn(0).setMaxWidth(100);
+        productTable.getColumnModel().getColumn(0).setMinWidth(60);
+
+        productTable.getColumnModel().getColumn(1).setPreferredWidth(180);
+        productTable.getColumnModel().getColumn(2).setPreferredWidth(140);
+
+        productTable.getColumnModel().getColumn(3).setPreferredWidth(90);
+        productTable.getColumnModel().getColumn(3).setMaxWidth(120);
+
+        productTable.getColumnModel().getColumn(4).setPreferredWidth(70);
+        productTable.getColumnModel().getColumn(4).setMaxWidth(90);
     }
 
     private void loadTableData() {
@@ -104,12 +135,12 @@ public class InventoryDashboard extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
         find = new javax.swing.JButton();
+        sortComboBox = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        clearSearch = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         productTable = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        sqlQuery = new javax.swing.JTextPane();
-        runButton = new javax.swing.JButton();
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -243,7 +274,7 @@ public class InventoryDashboard extends javax.swing.JFrame {
                     .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(202, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(153, 204, 255));
@@ -260,6 +291,25 @@ public class InventoryDashboard extends javax.swing.JFrame {
             }
         });
 
+        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name", "Category", "Price", "QTY" }));
+        sortComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("Sort");
+
+        clearSearch.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
+        clearSearch.setText("Clear");
+        clearSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clearSearchMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -269,23 +319,36 @@ public class InventoryDashboard extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(searchField)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(find)))
+                        .addComponent(find)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clearSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sortComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchField, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(find, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(searchField, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                            .addComponent(find, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clearSearch))
+                        .addGap(7, 7, 7))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(sortComboBox)
+                        .addContainerGap())))
         );
 
         jPanel3.setBackground(new java.awt.Color(0, 204, 255));
@@ -323,33 +386,15 @@ public class InventoryDashboard extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(productTable);
 
-        jScrollPane2.setViewportView(sqlQuery);
-
-        runButton.setText("Run");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(runButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(runButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jScrollPane1)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -503,6 +548,56 @@ public class InventoryDashboard extends javax.swing.JFrame {
             quantitySpinner.setValue(Integer.valueOf(productTable.getValueAt(selectedRow, 4).toString()));
         }
     }//GEN-LAST:event_productTableMouseClicked
+
+    private void sortComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortComboBoxActionPerformed
+        String selectedSort = sortComboBox.getSelectedItem().toString();
+        String columnQueryPart = "id";
+
+        switch (selectedSort) {
+            case "ID":
+                columnQueryPart = "id";
+                break;
+            case "Name":
+                columnQueryPart = "name";
+                break;
+            case "Category":
+                columnQueryPart = "category";
+                break;
+            case "Price":
+                columnQueryPart = "price";
+                break;
+            case "QTY":
+                columnQueryPart = "quantity";
+                break;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) productTable.getModel();
+        model.setRowCount(0);
+
+        try {
+            String query = "SELECT * FROM products ORDER BY " + columnQueryPart + " ASC";
+            ResultSet rs = DB.stat.executeQuery(query);
+
+            while (rs.next()) {
+                Object[] row = {
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("category"),
+                    rs.getDouble("price"),
+                    rs.getInt("quantity")
+                };
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Sorting Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_sortComboBoxActionPerformed
+
+    private void clearSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearSearchMouseClicked
+        searchField.setText(null);
+        loadTableData();
+        productTable.clearSelection();
+    }//GEN-LAST:event_clearSearchMouseClicked
     private void clearFields() {
         productIDField.setText("");
         productNameField.setText("");
@@ -511,62 +606,6 @@ public class InventoryDashboard extends javax.swing.JFrame {
         quantitySpinner.setValue(0);
         searchField.setText("");
         productTable.clearSelection();
-    }
-
-    private void runButtonMouseClicked(java.awt.event.MouseEvent evt) {
-        String query = sqlQuery.getText().trim();
-
-        if (query.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please type a SQL query first!", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-            // Check if it's a SELECT query or a modification query (INSERT, UPDATE, DELETE)
-            String upperQuery = query.toUpperCase();
-
-            if (upperQuery.startsWith("SELECT")) {
-                // Execute SELECT and display dynamic results in productTable
-                java.sql.Statement stmt = DB.con.createStatement();
-                ResultSet rs = stmt.executeQuery(query);
-
-                java.sql.ResultSetMetaData metaData = rs.getMetaData();
-                int columnCount = metaData.getColumnCount();
-
-                // Get column names dynamically
-                Vector<String> columnNames = new Vector<>();
-                for (int i = 1; i <= columnCount; i++) {
-                    columnNames.add(metaData.getColumnName(i));
-                }
-
-                // Get row data dynamically
-                Vector<Vector<Object>> data = new Vector<>();
-                while (rs.next()) {
-                    Vector<Object> vector = new Vector<>();
-                    for (int i = 1; i <= columnCount; i++) {
-                        vector.add(rs.getObject(i));
-                    }
-                    data.add(vector);
-                }
-
-                // Set the dynamic table model
-                productTable.setModel(new DefaultTableModel(data, columnNames));
-                JOptionPane.showMessageDialog(this, "Query executed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            } else {
-                // Execute INSERT, UPDATE, DELETE, CREATE, etc.
-                java.sql.Statement stmt = DB.con.createStatement();
-                int rowsAffected = stmt.executeUpdate(query);
-
-                JOptionPane.showMessageDialog(this, "Query executed successfully! Rows affected: " + rowsAffected, "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                // Refresh main table data in case products were changed
-                loadTableData();
-            }
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "SQL Execution Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     public static void main(String args[]) {
@@ -578,6 +617,7 @@ public class InventoryDashboard extends javax.swing.JFrame {
     private javax.swing.JButton addButton;
     private javax.swing.JComboBox<String> categoryComboBox;
     private javax.swing.JButton clearButton;
+    private javax.swing.JButton clearSearch;
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton find;
     private javax.swing.JLabel jLabel1;
@@ -588,20 +628,19 @@ public class InventoryDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField priceField;
     private javax.swing.JTextField productIDField;
     private javax.swing.JTextField productNameField;
     private javax.swing.JTable productTable;
     private javax.swing.JSpinner quantitySpinner;
-    private javax.swing.JButton runButton;
     private javax.swing.JTextField searchField;
-    private javax.swing.JTextPane sqlQuery;
+    private javax.swing.JComboBox<String> sortComboBox;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }
